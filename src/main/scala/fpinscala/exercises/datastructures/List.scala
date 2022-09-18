@@ -104,9 +104,10 @@ object List: // `List` companion object. Contains functions for creating and wor
     foldRight(l, Nil: List[A], append)
 
   def incrementEach(l: List[Int]): List[Int] = 
-    foldRight(l, Nil: List[Int], (x,y) => Cons(x+1, y))
+    foldRight(l, Nil: List[Int], (i,acc) => Cons(i+1, acc))
 
-  def doubleToString(l: List[Double]): List[String] = ???
+  def doubleToString(l: List[Double]): List[String] =
+    foldRight(l, Nil: List[String], (d,acc) => Cons(d.toString(), acc))
 
   def map[A,B](l: List[A], f: A => B): List[B] = ???
 
