@@ -78,10 +78,15 @@ object List: // `List` companion object. Contains functions for creating and wor
       case Cons(h,t) => Cons(h,init(t))
 
   def length[A](l: List[A]): Int =
-    foldRight(l, 0, (x,y) => 1 + y) 
+    foldRight(l, 0, (x,y) => 1 + y)
 
-  def foldLeft[A,B](l: List[A], acc: B, f: (B, A) => B): B = ???
-
+  def foldLeft[A,B](l: List[A], acc: B, f: (B, A) => B): B =
+     def foldLeftInternal[A,B](l: List[A], f: (B, A) => B, aggregated: B): B =
+        l match
+          case Nil => aggregated
+          case Cons(x, xs) => foldLeftInternal(xs, f, f(aggregated, x))
+     foldLeftInternal(l, f, acc) 
+     
   def sumViaFoldLeft(ns: List[Int]): Int = ???
 
   def productViaFoldLeft(ns: List[Double]): Double = ???
