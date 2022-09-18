@@ -10,14 +10,16 @@ enum List[+A]:
   case Cons(head: A, tail: List[A])
 
 object List: // `List` companion object. Contains functions for creating and working with lists.
-  def sum(ints: List[Int]): Int = ints match // A function that uses pattern matching to add up a list of integers
-    case Nil => 0 // The sum of the empty list is 0.
-    case Cons(x,xs) => x + sum(xs) // The sum of a list starting with `x` is `x` plus the sum of the rest of the list.
+  def sum(ints: List[Int]): Int = 
+    ints match // A function that uses pattern matching to add up a list of integers
+      case Nil => 0 // The sum of the empty list is 0.
+      case Cons(x,xs) => x + sum(xs) // The sum of a list starting with `x` is `x` plus the sum of the rest of the list.
 
-  def product(doubles: List[Double]): Double = doubles match
-    case Nil => 1.0
-    case Cons(0.0, _) => 0.0
-    case Cons(x,xs) => x * product(xs)
+  def product(doubles: List[Double]): Double = 
+    doubles match
+      case Nil => 1.0
+      case Cons(0.0, _) => 0.0
+      case Cons(x,xs) => x * product(xs)
 
   def apply[A](as: A*): List[A] = // Variadic function syntax
     if as.isEmpty then Nil
@@ -42,13 +44,16 @@ object List: // `List` companion object. Contains functions for creating and wor
       case Cons(x, xs) => f(x, foldRight(xs, acc, f))
 
   def sumViaFoldRight(ns: List[Int]): Int =
-    foldRight(ns, 0, (x,y) => x + y)
+    foldRight(ns, 0, _ + _)
 
   def productViaFoldRight(ns: List[Double]): Double =
     foldRight(ns, 1.0, _ * _) // `_ * _` is more concise notation for `(x,y) => x * y`; see sidebar
 
-  def tail[A](l: List[A]): List[A] = ???
-
+  def tail[A](l: List[A]): List[A] =
+    l match
+      case Nil => sys.error("tail of empty list")
+      case Cons(_,t) => t
+      
   def setHead[A](l: List[A], h: A): List[A] = ???
 
   def drop[A](l: List[A], n: Int): List[A] = ???
